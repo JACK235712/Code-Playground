@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* 段位流光进度条（animate-rank-flow）定义在 tailwind.config.ts 的 keyframes 里 */
+
+/* AI 悬浮球的呼吸灯（挑战页助教管家）：时长由组件按状态传入，待机慢、诊断快 */
+@keyframes orb-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+    filter: brightness(0.9);
+  }
+  50% {
+    transform: scale(1.14);
+    filter: brightness(1.25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes orb-breathe {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+  }
+}
+
+/* 幽灵视窗的扫描光带：top 用百分比，所以它跟着视窗自身高度走，不依赖视口尺寸 */
+@keyframes ghost-scan {
+  from {
+    top: -14%;
+  }
+  to {
+    top: 114%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes ghost-scan {
+    from,
+    to {
+      top: -14%;
+      opacity: 0;
+    }
+  }
+}
+
+/* 幽灵终端的代码雨：一列字从顶扫到底，每列时长和延迟由组件的行内样式给 */
+@keyframes code-rain {
+  from {
+    transform: translateY(-50%);
+  }
+  to {
+    transform: translateY(6%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes code-rain {
+    from,
+    to {
+      transform: translateY(-24%);
+      opacity: 0;
+    }
+  }
+}
+
+/* 「召唤 AI 数据分析师」按钮上的扫描光带：一条高光横着扫过按钮表面 */
+@keyframes agent-scan {
+  from {
+    transform: translateX(-140%);
+  }
+  to {
+    transform: translateX(360%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes agent-scan {
+    from,
+    to {
+      transform: translateX(-140%);
+      opacity: 0;
+    }
+  }
+}
+
+/* 对手视窗的脱敏代码瀑布：内容整列往上滚，跑到底再无缝接上（外层把行重复了两份） */
+@keyframes ghost-cascade {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @keyframes ghost-cascade {
+    from,
+    to {
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink-900 font-display text-slate-100 antialiased;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-neon-cyan/30 text-white;
+  }
+
+  * {
+    scrollbar-color: theme('colors.ink.500') transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-ink-500/70;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer components {
+  /* Frosted panel used by the header, the nav and the page placeholders */
+  .glass {
+    @apply border border-white/10 bg-ink-800/60 backdrop-blur-xl;
+  }
+
+  /* Gradient hairline border wrapper */
+  .neon-frame {
+    @apply relative rounded-2xl bg-gradient-to-br from-neon-cyan/40 via-neon-violet/25 to-neon-pink/40 p-px;
+  }
+}
+
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 12px currentColor;
+  }
+}
